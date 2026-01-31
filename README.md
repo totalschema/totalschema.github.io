@@ -11,7 +11,7 @@ deployment scenarios where you need to manage:
 - Non-database assets (Linux/Unix servers, cloud infrastructure, configuration files)
 - Complex deployment orchestration across heterogeneous systems
 
-See **[GitHub Page](https://github.com/totalschemad)**
+See **[GitHub Page](https://github.com/totalschema)**
 
 ## Why TotalSchema?
 
