@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TotalSchema — Data Platform Change Management</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand:       #2563eb;
+      --brand-dark:  #1d4ed8;
+      --brand-light: #eff6ff;
+      --text:        #111827;
+      --muted:       #6b7280;
+      --border:      #e5e7eb;
+      --bg:          #ffffff;
+      --code-bg:     #f3f4f6;
+      --radius:      10px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ──────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-brand span { color: var(--brand); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.75rem;
+      list-style: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── HERO ─────────────────────────────────── */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 span { color: var(--brand); }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.875rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: var(--radius);
+      font-size: 0.925rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .15s, box-shadow .15s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(37,99,235,.35);
+    }
+
+    .btn-primary:hover { background: var(--brand-dark); text-decoration: none; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: #9ca3af; text-decoration: none; }
+
+    /* ── PITCH ────────────────────────────────── */
+    .pitch {
+      background: var(--brand-light);
+      border-top: 1px solid #dbeafe;
+      border-bottom: 1px solid #dbeafe;
+      padding: 3.5rem 2rem;
+    }
+
+    .pitch-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .pitch-inner h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .pitch-inner p {
+      color: #374151;
+      margin-bottom: 1rem;
+      max-width: 760px;
+    }
+
+    .pitch-inner p:last-child { margin-bottom: 0; }
+
+    .pitch-inner strong { color: var(--text); }
+
+    /* ── SYSTEMS GRID ─────────────────────────── */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 0.5rem;
+    }
+
+    .section h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.6rem;
+    }
+
+    .section > p {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1rem;
+    }
+
+    .grid-4 .card {
+      grid-column: span 2;
+    }
+
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      background: var(--bg);
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── FEATURES LIST ────────────────────────── */
+    .features {
+      background: #fafafa;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .features .section { padding-top: 4rem; padding-bottom: 4rem; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 0.85rem;
+    }
+
+    .feature-dot {
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+      margin-top: 0.55rem;
+    }
+
+    .feature-item h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .feature-item p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── USAGE APPROACHES ──────────────────────��� */
+    .approaches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .approach-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: box-shadow .15s, border-color .15s;
+    }
+
+    .approach-card:hover {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.08);
+    }
+
+    .approach-card .emoji { font-size: 1.75rem; }
+
+    .approach-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .approach-card .tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .approach-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .approach-card a.link-arrow {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--brand);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .approach-card a.link-arrow:hover { text-decoration: underline; }
+
+    /* ── CODE SNIPPET ─────────────────────────── */
+    .snippet-wrap {
+      background: #1e293b;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+    }
+
+    .snippet-wrap code {
+      font-family: "SF Mono", "Fira Code", "Fira Mono", monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+      white-space: pre;
+    }
+
+    .snippet-wrap .cmt { color: #64748b; }
+    .snippet-wrap .kw  { color: #7dd3fc; }
+    .snippet-wrap .str { color: #86efac; }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav>
+  <span class="nav-brand">Total<span>Schema</span></span>
+  <ul class="nav-links">
+    <li><a href="#why">Why TotalSchema</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#usage">Get Started</a></li>
+    <li><a href="https://github.com/totalschema/totalschema/blob/main/README.md">Full Docs</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-badge">Open Source · Java · CLI &amp; Maven</div>
+  <h1>One tool to keep your<br/><span>entire data platform in sync</span></h1>
+  <p>
+    Define every schema or infrastructure change once, in version control,
+    and roll it out reliably across all your databases and systems
+    with a single command.
+  </p>
+  <div class="hero-actions">
+    <a href="https://github.com/totalschema/totalschema/blob/main/README.md" class="btn btn-primary">
+      📖 Read the Docs
+    </a>
+    <a href="https://github.com/totalschema/totalschema/blob/main/docs/user_manual/CLI-USAGE.md" class="btn btn-outline">
+      ⚡ Get Started with CLI
+    </a>
+  </div>
+</section>
+
+<!-- ── PITCH ─────────────────────────────────────────── -->
+<section class="pitch">
+  <div class="pitch-inner">
+    <h2>The problem with traditional change tools</h2>
+    <p>
+      Traditional schema change tools are built for a simpler world: one application, one
+      database. They fall short the moment a single release must touch multiple systems
+      at once—say, an <strong>operational OLTP database</strong>, an <strong>OLAP data
+      warehouse</strong>, a <strong>key-value store</strong> such as BigTable, and a
+      <strong>Kafka topic</strong> whose configuration must be in place before the first
+      message arrives—with the guarantee that all of it lands in lockstep.
+    </p>
+    <p>
+      TotalSchema is designed for exactly that reality. It is the right choice for modern
+      <strong>Data Warehouse (DWH)</strong>, <strong>Big Data</strong>, and <strong>cloud
+      platforms</strong> where releases span heterogeneous systems and manual coordination
+      is a liability, not a process.
+    </p>
+  </div>
+</section>
+
+<!-- ── SYSTEMS ───────────────────────────────────────── -->
+<section class="section" id="why">
+  <div class="section-label">What it manages</div>
+  <h2>Any system, one workflow</h2>
+  <p>Apply changes consistently across every tier of your data platform.</p>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="card-icon">🗄️</div>
+      <h3>Relational Databases</h3>
+      <p>Oracle, PostgreSQL, MySQL, SQL Server, and any JDBC-compatible database.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">☁️</div>
+      <h3>Cloud Analytical Stores</h3>
+      <p>BigQuery, Redshift, Snowflake, and other cloud-native data warehouses.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <h3>NoSQL &amp; Key-Value Stores</h3>
+      <p>BigTable, HBase, MongoDB, Cassandra, and similar distributed stores.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🖥️</div>
+      <h3>Servers &amp;<br/>Infrastructure</h3>
+      <p>Linux/Unix servers via SSH, cloud services, and configuration file management.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📨</div>
+      <h3>Streaming Platforms</h3>
+      <p>Kafka topic creation, partition and retention settings, schema registry entries—versioned and applied like any other change.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔌</div>
+      <h3>Legacy &amp; Custom Systems</h3>
+      <p>Custom connectors for proprietary or legacy systems are first-class citizens—invoked and scripted exactly like built-in connectors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ──────────────────────────────────────── -->
+<section class="features" id="features">
+  <div class="section">
+    <div class="section-label">Features</div>
+    <h2>Everything a data engineering team needs</h2>
+    <p>A focused, production-ready feature set—no bloat.</p>
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Sequenced Cross-System Changes</h4>
+          <p>Each change targets one system and has a defined position in the global execution order—so multi-system releases always run in exactly the sequence you intend.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>State Tracking</h4>
+          <p>A persistent state table records every applied change, with optional content hashing to detect tampering.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Multiple Script Types</h4>
+          <p>SQL, Shell, Groovy, and any JVM scripting language your team already knows—JavaScript, Kotlin Script, JRuby, and more (via JSR-223).</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Flexible Execution Modes</h4>
+          <p>Run once, run always, run on content change, or revert—each script declares its own lifecycle.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Environment Management</h4>
+          <p>Separate configurations, variables, and system targets for DEV, QA, PROD, and any custom environment.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Variable Substitution</h4>
+          <p>Powerful variable system with environment overrides, expression evaluation, and encrypted secret support.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Distributed Locking</h4>
+          <p>Optional database-backed locking prevents concurrent executions across your team or CI/CD pipeline.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Wildcard Selection</h4>
+          <p>Deploy an arbitrary subset of changes—no forced linear versioning. You decide what runs and when.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h4>Validation</h4>
+          <p>Built-in detection of change scripts that were modified after being applied—safeguarding deployment integrity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUICK START ────────────────────────────────────── -->
+<section class="section" id="usage">
+  <div class="section-label">Get Started</div>
+  <h2>Three ways to use TotalSchema</h2>
+  <p>Pick the approach that fits your workflow.</p>
+
+  <div class="approaches" style="margin-bottom: 3rem;">
+    <div class="approach-card">
+      <div class="emoji">📦</div>
+      <h3>CLI Distribution</h3>
+      <span class="tag">Recommended for most teams</span>
+      <p>Download, extract, add your JDBC drivers, and run. No build tool required—ideal for ops teams and CI/CD pipelines.</p>
+      <a href="https://github.com/totalschema/totalschema/blob/main/docs/user_manual/CLI-USAGE.md" class="link-arrow">CLI Usage Guide →</a>
+    </div>
+    <div class="approach-card">
+      <div class="emoji">🔧</div>
+      <h3>Maven Plugin</h3>
+      <span class="tag">Best for Java projects</span>
+      <p>Integrate directly into your Maven build lifecycle. JDBC drivers are managed as Maven dependencies.</p>
+      <a href="https://github.com/totalschema/totalschema/tree/main/docs/MAVEN-USAGE.md" class="link-arrow">Maven Plugin Guide →</a>
+    </div>
+    <div class="approach-card">
+      <div class="emoji">💻</div>
+      <h3>Java API</h3>
+      <span class="tag">For custom integrations</span>
+      <p>Embed TotalSchema programmatically in your application for maximum flexibility and control.</p>
+      <a href="https://github.com/totalschema/totalschema/tree/main/docs/JAVA-API-USAGE.md" class="link-arrow">Java API Guide →</a>
+    </div>
+  </div>
+
+  <div class="snippet-wrap">
+    <code><span class="cmt"># Download and extract the CLI distribution</span>
+<span class="kw">export</span> TOTALSCHEMA_VERSION=<span class="str">1.2.0</span>
+wget https://repo1.maven.org/maven2/io/github/totalschema/totalschema-release/<span class="str">${TOTALSCHEMA_VERSION}</span>/totalschema-release-<span class="str">${TOTALSCHEMA_VERSION}</span>.tar.gz
+tar -xzf totalschema-<span class="str">${TOTALSCHEMA_VERSION}</span>.tar.gz && cd totalschema-<span class="str">${TOTALSCHEMA_VERSION}</span>
+
+<span class="cmt"># Add your JDBC driver and apply changes to DEV</span>
+cp postgresql-42.7.3.jar user_libs/
+bin/totalschema.sh apply -e DEV</code>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <p>
+    <strong>TotalSchema</strong> is open-source software released under the
+    <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU Affero General Public License</a>.
+    &nbsp;·&nbsp;
+    <a href="https://github.com/totalschema/totalschema/blob/main/README.md">Full Documentation</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/totalschema/totalschema" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</footer>
+
+</body>
+</html>
+
