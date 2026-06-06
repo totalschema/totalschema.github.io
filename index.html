@@ -383,8 +383,8 @@
   <h1>One tool to keep your<br/><span>entire data platform in sync</span></h1>
   <p>
     Define every schema or infrastructure change once, in version control,
-    and roll it out reliably across all your databases and systems
-    with a single command.
+    and roll it out reliably across all your databases and data processing 
+    systems with a single command.
   </p>
   <div class="hero-actions">
     <a href="https://github.com/totalschema/totalschema/blob/main/README.md" class="btn btn-primary">
@@ -399,20 +399,23 @@
 <!-- ── PITCH ─────────────────────────────────────────── -->
 <section class="pitch">
   <div class="pitch-inner">
-    <h2>The problem with traditional change tools</h2>
+    <h2>One release. Many systems. A single tool.</h2>
     <p>
-      Traditional schema change tools are built for a simpler world: one application, one
-      database. They fall short the moment a single release must touch multiple systems
-      at once—say, an <strong>operational OLTP database</strong>, an <strong>OLAP data
-      warehouse</strong>, a <strong>key-value store</strong> such as BigTable, and a
-      <strong>Kafka topic</strong> whose configuration must be in place before the first
-      message arrives—with the guarantee that all of it lands in lockstep.
+      Say a single release must touch an <strong>operational PostgreSQL database</strong>, 
+      a <strong>BigQuery data warehouse</strong>, a <strong>Bigtable key-value store</strong>, 
+      and a <strong>Kafka topic</strong> whose configuration must be in place before the first message 
+      arrives — with the guarantee that all of it lands in the right sequence.
     </p>
     <p>
-      TotalSchema is designed for exactly that reality. It is the right choice for modern
-      <strong>Data Warehouse (DWH)</strong>, <strong>Big Data</strong>, and <strong>cloud
-      platforms</strong> where releases span heterogeneous systems and manual coordination
-      is a liability, not a process.
+      Traditional schema change tools are excelent for a single database.
+      They however fall short the moment a single release must touch multiple 
+      systems at once: the gap is typically filled with runbooks, 
+      shell scripts, and careful humans — all of which fail in ways that are hard 
+      to detect and hard to reverse.
+    </p>
+    <p>
+      <strong>TotalSchema is designed for exactly that gap.</strong> 
+      Changes in one place. One command. All systems updated, in order.
     </p>
   </div>
 </section>
