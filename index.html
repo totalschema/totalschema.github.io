@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TotalSchema — Data Platform Change Management</title>
+  <meta name="description" content="Coordinate version-controlled changes across databases, cloud data services, servers, and scripts with TotalSchema." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="TotalSchema — Data Platform Change Management" />
+  <meta property="og:description" content="Coordinate version-controlled changes across databases, cloud data services, servers, and scripts with TotalSchema." />
+  <meta property="og:url" content="https://totalschema.github.io/" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -64,6 +69,17 @@
 
     .nav-links a { color: var(--muted); }
     .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .project-badges {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      margin-top: 1.5rem;
+    }
+
+    .project-badges img { height: 20px; }
 
     /* ── HERO ─────────────────────────────────── */
     .hero {
@@ -347,6 +363,38 @@
     .snippet-wrap .kw  { color: #7dd3fc; }
     .snippet-wrap .str { color: #86efac; }
 
+    .table-wrap { overflow-x: auto; }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparison-table th { background: #f9fafb; }
+    .comparison-table th:first-child { width: 20%; }
+
+    .support-note,
+    .recovery-note {
+      border-left: 3px solid var(--brand);
+      background: #f9fafb;
+      padding: 1rem 1.25rem;
+      color: #374151;
+    }
+
+    .support-note { margin-top: 1.5rem; }
+    .recovery-note { margin-top: 2rem; }
+    .support-note p + p,
+    .recovery-note p + p { margin-top: 0.6rem; }
+
     /* ── FOOTER ───────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -371,8 +419,11 @@
   <span class="nav-brand">Total<span>Schema</span></span>
   <ul class="nav-links">
     <li><a href="#why">Why TotalSchema</a></li>
+    <li><a href="#connectors">Connectors</a></li>
     <li><a href="#features">Features</a></li>
-    <li><a href="#usage">Get Started</a></li>
+    <li><a href="#recovery">Recovery</a></li>
+    <li><a href="#comparison">Compare</a></li>
+    <li><a href="#quickstart">Get Started</a></li>
     <li><a href="https://github.com/totalschema/totalschema/blob/main/README.md">Full Docs</a></li>
   </ul>
 </nav>
@@ -383,15 +434,21 @@
   <h1>One tool to keep your<br/><span>entire data platform in sync</span></h1>
   <p>
     Define every schema or infrastructure change once, in version control,
-    and roll it out reliably across all your databases and data processing 
-    systems with a single command.
+    and coordinate its rollout across your databases and data processing
+    systems in one version-controlled workflow.
   </p>
   <div class="hero-actions">
-    <a href="https://github.com/totalschema/totalschema/blob/main/README.md" class="btn btn-primary">
+    <a href="#quickstart" class="btn btn-primary">
+      ⚡ Get Started
+    </a>
+    <a href="https://github.com/totalschema/totalschema/blob/main/README.md" class="btn btn-outline">
       📖 Read the Docs
     </a>
-    <a href="https://github.com/totalschema/totalschema/blob/main/docs/user_manual/CLI-USAGE.md" class="btn btn-outline">
-      ⚡ Get Started with CLI
+  </div>
+  <div class="project-badges" aria-label="Project status">
+    <span class="hero-badge">Latest release: 1.4.0 · October 14, 2026</span>
+    <a href="https://central.sonatype.com/artifact/io.github.totalschema/totalschema-release">
+      <img src="https://img.shields.io/maven-central/v/io.github.totalschema/totalschema-release?label=Maven%20Central" alt="Maven Central version" />
     </a>
   </div>
 </section>
@@ -399,7 +456,7 @@
 <!-- ── PITCH ─────────────────────────────────────────── -->
 <section class="pitch">
   <div class="pitch-inner">
-    <h2>One release. Many systems. One command.</h2>
+    <h2>One release. Many systems. One tool.</h2>
     <p>
       Say a single release must touch an <strong>operational PostgreSQL database</strong>, 
       a <strong>BigQuery data warehouse</strong>, a <strong>Bigtable key-value store</strong>, 
@@ -407,15 +464,13 @@
       first message arrives — with the guarantee that all of it lands in the right sequence.
     </p>
     <p>
-      Traditional schema change tools are excellent for a single database. 
-      They fall short the moment a release must touch multiple systems at once: 
-      the gap is typically filled with runbooks, shell scripts, and careful humans 
-      — all of which fail in ways that are hard to detect and hard to reverse.
+      Database migration tools are excellent at managing database changes. When a release spans
+      different platforms and services, teams often coordinate the work with pipelines, scripts,
+      and runbooks. It tales considerable effort to plan and implement.
     </p>
     <p>
-      TotalSchema is designed for exactly that gap. 
-      Changes in one place. One command. 
-      All systems updated, in order.
+      TotalSchema is designed for exactly that gap. Changes in one place. One tool.
+      All systems updated, in the order you define.
     </p>
   </div>
 </section>
@@ -423,39 +478,39 @@
 <!-- ── SYSTEMS ───────────────────────────────────────── -->
 <section class="section" id="why">
   <div class="section-label">What it manages</div>
-  <h2>Any system, one workflow</h2>
-  <p>Apply changes consistently across every tier of your data platform.</p>
+  <h2>Changes across your data platform</h2>
+  <p>Manage relational databases and cloud data warehouses through JDBC, use dedicated connectors for selected cloud services, and extend coverage with scripts or custom connectors.</p>
 
-  <div class="grid-4">
+  <div class="grid-4" id="connectors">
     <div class="card">
       <div class="card-icon">🗄️</div>
       <h3>Relational Databases</h3>
-      <p>Oracle, PostgreSQL, MySQL, SQL Server, and any JDBC-compatible database.</p>
+      <p>Manage relational databases through JDBC with a driver for your database.</p>
     </div>
     <div class="card">
       <div class="card-icon">☁️</div>
       <h3>Cloud Analytical Stores</h3>
-      <p>BigQuery, Redshift, Snowflake, and other cloud-native data warehouses.</p>
+      <p>Manage cloud data warehouses through JDBC with the appropriate driver. BigQuery is also supported by a dedicated connector.</p>
     </div>
     <div class="card">
       <div class="card-icon">📦</div>
       <h3>NoSQL &amp; Key-Value Stores</h3>
-      <p>BigTable, HBase, MongoDB, Cassandra, and similar distributed stores.</p>
+      <p>Dedicated connectors are available for Google Cloud Bigtable and Firestore.</p>
     </div>
     <div class="card">
       <div class="card-icon">🖥️</div>
       <h3>Servers &amp;<br/>Infrastructure</h3>
-      <p>Linux/Unix servers via SSH, cloud services, and configuration file management.</p>
+      <p>Run changes on Linux/Unix servers via SSH, or use shell scripts to manage system configuration and other infrastructure tasks.</p>
     </div>
     <div class="card">
       <div class="card-icon">📨</div>
       <h3>Streaming Platforms</h3>
-      <p>Kafka topic creation, partition and retention settings, schema registry entries—versioned and applied like any other change.</p>
+      <p>A dedicated connector supports Google Cloud Pub/Sub. Kafka is not a built-in connector; manage it with scripts or a user-developed connector.</p>
     </div>
     <div class="card">
       <div class="card-icon">🔌</div>
       <h3>Legacy &amp; Custom Systems</h3>
-      <p>Custom connectors for proprietary or legacy systems are first-class citizens—invoked and scripted exactly like built-in connectors.</p>
+      <p>Extensibility is built in: manage additional systems with shell scripts or connectors tailored to your environment.</p>
     </div>
   </div>
 </section>
@@ -486,7 +541,8 @@
         <div class="feature-dot"></div>
         <div>
           <h4>Multiple Script Types</h4>
-          <p>SQL, Shell, Groovy, and any JVM scripting language your team already knows—JavaScript, Kotlin Script, JRuby, and more (via JSR-223).</p>
+          <p>SQL, Python, Shell, Groovy, and any JVM ScriptEngine
+            scripting language your team already knows.</p>
         </div>
       </div>
       <div class="feature-item">
@@ -535,10 +591,87 @@
   </div>
 </section>
 
+<!-- ── FAILURE HANDLING ──────────────────────────────── -->
+<section class="section" id="recovery">
+  <div class="section-label">Failure handling</div>
+  <h2>Know what completed—and choose how to recover</h2>
+  <p>
+    Completed changes are recorded in the state table. By default, if an apply script fails,
+    TotalSchema stops the change process; completed work stays recorded so you can review it and
+    continue the remaining changes.
+  </p>
+  <div class="recovery-note">
+    <p><strong>Optional automatic revert:</strong> You can request that TotalSchema revert completed
+      changes when an apply error occurs. Write a corresponding revert script for each apply script
+      so completed work can be undone.</p>
+    <p><strong>Protect the state database:</strong> Back it up with your operational data. If it is
+      lost, restore it or reconcile the recorded state against the target systems before running
+      changes again.</p>
+  </div>
+</section>
+
+<!-- ── COMPARISON ────────────────────────────────────── -->
+<section class="features" id="comparison">
+  <div class="section">
+    <div class="section-label">How it fits</div>
+    <h2>Already using Liquibase or Flyway? Keep them.</h2>
+    <p>
+      Liquibase and Flyway are proven tools for database migrations. Liquibase also supports some
+      NoSQL databases through extensions, and its Flow Files can sequence commands. These tools
+      keep migration history with the databases they manage; teams can coordinate wider releases
+      through pipelines or other orchestration.
+    </p>
+    <div class="table-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th scope="col">Aspect</th>
+            <th scope="col">Liquibase / Flyway</th>
+            <th scope="col">TotalSchema</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Primary focus</th>
+            <td>Managing migrations for a database</td>
+            <td>Coordinating changes across systems in a release</td>
+          </tr>
+          <tr>
+            <th scope="row">Ordering</th>
+            <td>Within a database; broader workflows can be coordinated externally or with flow features</td>
+            <td>One defined execution order across change files and systems</td>
+          </tr>
+          <tr>
+            <th scope="row">Change history</th>
+            <td>Migration history associated with the database being managed</td>
+            <td>Completed changes recorded in a state table</td>
+          </tr>
+          <tr>
+            <th scope="row">Other systems</th>
+            <td>Often coordinated externally, including with scripts and surrounding tooling</td>
+            <td>Provided connectors, shell scripts, and user-developed connectors</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="support-note">
+      If your changes affect one database, you may not need TotalSchema. Keep Liquibase or Flyway
+      for the databases they already manage well, and use TotalSchema where a release needs
+      cross-system coordination.
+    </p>
+  </div>
+</section>
+
 <!-- ── QUICK START ────────────────────────────────────── -->
 <section class="section" id="usage">
   <div class="section-label">Get Started</div>
   <h2>Three ways to use TotalSchema</h2>
+  <p id="quickstart">
+    Start with a runnable sample project:
+    <a href="https://github.com/totalschema/totalschema/tree/main/samples/basic">basic CLI sample</a>
+    or <a href="https://github.com/totalschema/totalschema/tree/main/samples/gcp-bigquery-basic">BigQuery sample</a>.
+    Each includes its configuration and change files; the BigQuery sample documents its prerequisites and commands.
+  </p>
   <p>Pick the approach that fits your workflow.</p>
 
   <div class="approaches" style="margin-bottom: 3rem;">
@@ -567,13 +700,15 @@
 
   <div class="snippet-wrap">
     <code><span class="cmt"># Download and extract the CLI distribution</span>
-<span class="kw">export</span> TOTALSCHEMA_VERSION=<span class="str">1.2.0</span>
+<span class="kw">export</span> TOTALSCHEMA_VERSION=<span class="str">1.4.0</span>
 wget https://repo1.maven.org/maven2/io/github/totalschema/totalschema-release/<span class="str">${TOTALSCHEMA_VERSION}</span>/totalschema-release-<span class="str">${TOTALSCHEMA_VERSION}</span>.tar.gz
-tar -xzf totalschema-<span class="str">${TOTALSCHEMA_VERSION}</span>.tar.gz && cd totalschema-<span class="str">${TOTALSCHEMA_VERSION}</span>
+tar -xzf totalschema-release-<span class="str">${TOTALSCHEMA_VERSION}</span>.tar.gz && cd totalschema-<span class="str">${TOTALSCHEMA_VERSION}</span>
+<span class="kw">export</span> TOTALSCHEMA_HOME="$PWD"
 
-<span class="cmt"># Add your JDBC driver and apply changes to DEV</span>
-cp postgresql-42.7.3.jar user_libs/
-bin/totalschema.sh apply -e DEV</code>
+<span class="cmt"># Add your JDBC driver, then run from a project directory containing totalschema.yml</span>
+cp /path/to/postgresql-42.7.3.jar user_libs/
+cd /path/to/your/project
+"$TOTALSCHEMA_HOME/bin/totalschema.sh" apply -e DEV</code>
   </div>
 </section>
 
@@ -591,4 +726,3 @@ bin/totalschema.sh apply -e DEV</code>
 
 </body>
 </html>
-
