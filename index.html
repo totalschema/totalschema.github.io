@@ -460,13 +460,13 @@
     <p>
       Say a single release must touch an <strong>operational PostgreSQL database</strong>, 
       a <strong>BigQuery data warehouse</strong>, a <strong>Bigtable key-value store</strong>, 
-      and a <strong>Kafka topic</strong> whose configuration must be in place before the 
-      first message arrives — with the guarantee that all of it lands in the right sequence.
+      and a <strong>Pub/Sub topic</strong> whose configuration must be in place before the 
+      first message arrives — and all of it has to land in the right sequence.
     </p>
     <p>
       Database migration tools are excellent at managing database changes. When a release spans
       different platforms and services, teams often coordinate the work with pipelines, scripts,
-      and runbooks. It tales considerable effort to plan and implement.
+      and runbooks. It takes considerable effort to plan and implement.
     </p>
     <p>
       TotalSchema is designed for exactly that gap. Changes in one place. One tool.
@@ -644,7 +644,7 @@
           <tr>
             <th scope="row">Change history</th>
             <td>Migration history associated with the database being managed</td>
-            <td>Completed changes recorded in a state table</td>
+            <td>Completed changes for every system recorded in one central state database</td>
           </tr>
           <tr>
             <th scope="row">Other systems</th>
